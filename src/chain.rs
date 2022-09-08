@@ -40,21 +40,18 @@ impl<T: Copy> Chain<T> {
     }
 
     pub fn commit(&mut self, value: T) {
-        match self.size {
-            0 => {
-                let node = Rc::new(Node::new([None, None], value));
-                self.root = Some(node);
-                self.head = self.root.clone();
-            }
-            _ => {
-                let node = Rc::new(Node::new([self.head.clone(), None], value));
-                self.head = Some(node);
-            }
-        };
+        if self.size == 0 {
+            let node = Rc::new(Node::new([None, None], value));
+            self.root = Some(node);
+            self.head = self.root.clone();
+        } else {
+            let node = Rc::new(Node::new([self.head.clone(), None], value));
+            self.head = Some(node);
+        }
         self.size += 1;
     }
 
-    /// Same as get_older(0), basically.
+    /// Same as `get_older(0)`, basically.
     pub fn get_head(&self) -> Option<T> {
         self.head.as_ref().map(|f| *f.clone().data)
     }
