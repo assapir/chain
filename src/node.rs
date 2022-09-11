@@ -14,7 +14,7 @@ impl<T: Copy> Node<T> {
         }
     }
 
-    pub(crate) fn get_parent(&self) -> Option<Rc<Node<T>>> {
+    pub(crate) fn get_parent(&self) -> NodeData<T> {
         self.parents[0].as_ref().cloned()
     }
 }
